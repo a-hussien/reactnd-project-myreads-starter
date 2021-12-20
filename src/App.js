@@ -14,20 +14,34 @@ class BooksApp extends React.Component {
     this.fetchBooks();
   }
 
-  fetchBooks = () => {
-    BooksAPI.getAll().then((data) => {
+  fetchBooks = async () => {
+    await BooksAPI.getAll().then((data) => {
       this.setState({ books: data });
     });
   };
 
   render() {
+    const shelfs = [
+      {
+        key: "currentlyReading",
+        name: "Currently Reading",
+      },
+      {
+        key: "wantToRead",
+        name: "Want to Read",
+      },
+      {
+        key: "read",
+        name: "Read",
+      }
+    ];
     return (
       <div className="app">
         <Routes>
-          <Route  path="/search" element={<SearchBooks />} >
+          <Route  path="/search" element={<SearchBooks bookList={this.state.books} fetchBooks={this.fetchBooks} shelfs={shelfs} />} >
 
           </Route>
-          <Route exact path="/" element={<BookList books={this.state.books} fetchBooks={this.fetchBooks} />}>
+          <Route exact path="/" element={<BookList books={this.state.books} fetchBooks={this.fetchBooks} shelfs={shelfs} />}>
           </Route>
         </Routes>
         

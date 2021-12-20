@@ -4,21 +4,8 @@ import BookShelf from "./BookShelf";
 
 class BookList extends Component {
   render() {
-    const { books, fetchBooks } = this.props;
-    const shelfs = [
-      {
-        key: "currentlyReading",
-        name: "Currently Reading",
-      },
-      {
-        key: "wantToRead",
-        name: "Want to Read",
-      },
-      {
-        key: "read",
-        name: "Read",
-      }
-    ];
+    const { books, fetchBooks, shelfs } = this.props;
+    
     return (
       <div>
         <div className="list-books">

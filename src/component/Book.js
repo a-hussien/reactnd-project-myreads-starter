@@ -8,7 +8,7 @@ class Book extends Component {
     const style = {
       width: 128,
       height: 193,
-      backgroundImage: `url("${imageLinks.smallThumbnail}")`,
+      backgroundImage: `url("${imageLinks ? imageLinks.smallThumbnail : 'xxx'}")`,
     };
     return (
       <div className="book">
@@ -22,9 +22,9 @@ class Book extends Component {
         </div>
         <div className="book-title">{title}</div>
         <div className="book-authors">
-          {Object.keys(authors).map((author, index) => (
+          {authors ? Object.keys(authors).map((author, index) => (
             <span key={index}>{authors[author]}</span>
-          ))}
+          )) : "N/A"}
         </div>
       </div>
     );
