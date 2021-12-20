@@ -1,29 +1,45 @@
 import React, { Component } from "react";
+import propTypes from "prop-types";
 import { Link } from "react-router-dom";
 import * as BooksAPI from "../BooksAPI";
 import Book from "./Book";
 
+/*
+- SearchBooks class component 
+- will return list of books related to input search (query)
+- showResult is true by default and will show list of books query
+- showResult will be false if handleChangeQuery return empty array of books
+  and showing search terms instead of books
+*/
+
 class SearchBooks extends Component {
+  static propTypes = {
+    query: propTypes.string,
+    books: propTypes.array,
+    showResult: propTypes.bool,
+    handleChangeQuery: propTypes.func,
+  };
+
   state = {
     query: "",
     books: [],
+    showResult: true,
   };
 
-  updateShelf = (targetBook) => {
-    targetBook.shelf = "none";
+  // filter search query with shelf name
+  updateShelf = (searchBook) => {
+    searchBook.shelf = "none";
 
-    const { bookList } = this.props;
+    const { books } = this.props;
 
-    if (bookList) {
-      const currentBook = bookList.filter((book) => book.id === targetBook.id);
-
+    if (books) {
+      const currentBook = books.filter((book) => book.id === searchBook.id);
+      // console.log(currentBook);
       if (currentBook.length > 0) {
-        targetBook.shelf = currentBook.shelf;
+        searchBook.shelf = currentBook[0].shelf;
       }
 
-      this.setState({ books: targetBook });
-
-      return targetBook;
+      return searchBook;
     }
   };
 
@@ -33,7 +49,19 @@ class SearchBooks extends Component {
     if (event.target.value.length) {
       await BooksAPI.search(event.target.value, 20)
         .then((books) => {
-          books.length ? this.updateShelf(books) : this.setState({ books: [] });
+          if (books.length) {
+            const newBooks = books.map((book) => this.updateShelf(book));
+            // console.table(newBooks);
+            this.setState({
+              books: newBooks,
+              showResult: true,
+            });
+          } else {
+            this.setState({
+              books: [],
+              showResult: false,
+            });
+          }
         })
         .catch((e) => console.error(`Something went wrong  - ${e}`));
     } else {
@@ -43,6 +71,7 @@ class SearchBooks extends Component {
 
   render() {
     const { fetchBooks, shelfs } = this.props;
+    const { books, showResult } = this.state;
     return (
       <div className="search-books">
         <div className="search-books-bar">
@@ -61,11 +90,35 @@ class SearchBooks extends Component {
         </div>
         <div className="search-books-results">
           <ol className="books-grid" />
-          {this.state.books.map((book) => (
-            <div key={book.id}>
-              <Book book={book} fetchBooks={fetchBooks} shelfs={shelfs} />
+          {showResult ? (
+            books.map((book) => (
+              <div key={book.id}>
+                <Book book={book} fetchBooks={fetchBooks} shelfs={shelfs} />
+              </div>
+            ))
+          ) : (
+            <div className="book-authors">
+              <h3>Search is limited to (search terms below)</h3>
+              <p>
+                'Android', 'Art', 'Artificial Intelligence', 'Astronomy',
+                'Austen', 'Baseball', 'Basketball', 'Bhagat', 'Biography',
+                'Brief', 'Business', 'Camus', 'Cervantes', 'Christie',
+                'Classics', 'Comics', 'Cook', 'Cricket', 'Cycling', 'Desai',
+                'Design', 'Development', 'Digital Marketing', 'Drama',
+                'Drawing', 'Dumas', 'Education', 'Everything', 'Fantasy',
+                'Film', 'Finance', 'First', 'Fitness', 'Football', 'Future',
+                'Games', 'Gandhi', 'Homer', 'Horror', 'Hugo', 'Ibsen',
+                'Journey', 'Kafka', 'King', 'Lahiri', 'Larsson', 'Learn',
+                'Literary Fiction', 'Make', 'Manage', 'Marquez', 'Money',
+                'Mystery', 'Negotiate', 'Painting', 'Philosophy', 'Photography',
+                'Poetry', 'Production', 'Programming', 'React', 'Redux',
+                'River', 'Robotics', 'Rowling', 'Satire', 'Science Fiction',
+                'Shakespeare', 'Singh', 'Swimming', 'Tale', 'Thrun', 'Time',
+                'Tolstoy', 'Travel', 'Ultimate', 'Virtual Reality', 'Web
+                Development', 'iOS'
+              </p>
             </div>
-          ))}
+          )}
         </div>
       </div>
     );
