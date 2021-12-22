@@ -26,14 +26,13 @@ class BooksApp extends React.Component {
     books: [],
   };
 
-  componentDidMount() {
-    this.fetchBooks();
+  async componentDidMount() {
+    await this.fetchBooks();
   }
 
   fetchBooks = async () => {
-    await BooksAPI.getAll().then((data) => {
-      this.setState({ books: data });
-    });
+    const books = await BooksAPI.getAll();
+    this.setState({ books });
   };
 
   render() {
