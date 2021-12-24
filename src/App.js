@@ -1,5 +1,4 @@
 import React from "react";
-import propTypes from "prop-types";
 import { Routes, Route } from 'react-router-dom';
 import * as BooksAPI from "./BooksAPI";
 import "./App.css";
@@ -16,11 +15,6 @@ import SearchBooks from "./component/SearchBooks";
 */
 
 class BooksApp extends React.Component {
-  static propTypes = {
-    books: propTypes.array,
-    fetchBooks: propTypes.func,
-    shelfs: propTypes.array,
-  };
 
   state = {
     books: [],

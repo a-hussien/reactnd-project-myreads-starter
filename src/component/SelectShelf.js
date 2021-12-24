@@ -16,9 +16,13 @@ class SelectShelf extends Component {
   };
 
   state = {
-    shelf: this.props.book.shelf,
+    shelf: "",
   };
 
+  componentDidMount() {
+    this.setState({shelf:this.props.book.shelf})
+  }  
+  
   handleChangeShelf = async (event) => {
     await BooksAPI.update(this.props.book, event.target.value).then(() => {
       this.props.fetchBooks();

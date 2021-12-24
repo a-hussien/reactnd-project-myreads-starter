@@ -5,6 +5,9 @@
 This app allow you to categorize books into shelfs `Currently Read`, `Want To Read` or `Read`.
 also you can search for specific topic and select a shelf to hold searched book.
 
+## [`Live Preview`](https://my-reads-library-app.netlify.app)
+
+
 ## Web Technologies used:
 
 * #### Frontend: Reactjs Library
@@ -25,6 +28,7 @@ also you can search for specific topic and select a shelf to hold searched book.
 
 * If you are done and ready to go in production, Please type `npm run build`
 and this command will create build folder for you.
+
 
 <!-- ## What You're Getting
 ```bash
