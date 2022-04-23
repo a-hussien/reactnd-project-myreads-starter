@@ -46,7 +46,7 @@ class SearchBooks extends Component {
   handleChangeQuery = async (event) => {
     this.setState({ query: event.target.value });
 
-    if (event.target.value.length) {
+    if (event.target.value.length > 3) {
       await BooksAPI.search(event.target.value, 20)
         .then((books) => {
           if (books.length) {
