@@ -131,6 +131,7 @@ button:active {
   display: flex;
   justify-content: center;
   justify-items: center;
+  flex-wrap: wrap;
 }
 
 /* books grid */
@@ -141,7 +142,6 @@ button:active {
   margin: 0;
   display: flex;
   justify-content: center;
-  flex-wrap: wrap;
 }
 
 .books-grid li {
